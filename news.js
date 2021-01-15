@@ -3,23 +3,18 @@ window.onload = function(){
     const wrapNoticia = document.querySelector(".zonaNoticias");
     const tituloN = document.querySelector(".tituloBusqueda");
 
-const obtenerNoticia = () => {
+const obtenerNoticia = async () => {
     const valor = buscarNoticia.value;
-    fetch(`https://bing-news-search1.p.rapidapi.com/news/search?q=${valor}&setLang=Spanish&cc=es-ES&mkt=es-ES&freshness=Day&textFormat=Raw&safeSearch=Off`, {
-        "method": "GET",
-        "headers": {
-            "x-bingapis-sdk": "true",
-            "x-rapidapi-key": "dd5934dbb7msh9131495b2e28ba0p1cbc37jsnc0860d71a641",
-            "x-rapidapi-host": "bing-news-search1.p.rapidapi.com"
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        borrarNoticia();
-        noticia(data, valor)
-        buscarNoticia.value = '';
-    })
-    .catch(err => console.error(err) );
+    const api = await fetch(`https://bing-news-search1.p.rapidapi.com/news/search?q=${valor}&setLang=Spanish&cc=es-ES&mkt=es-ES&freshness=Day&textFormat=Raw&safeSearch=Off`, {
+        "method": "GET", "headers": {
+        "x-bingapis-sdk": "true",
+        "x-rapidapi-key": "dd5934dbb7msh9131495b2e28ba0p1cbc37jsnc0860d71a641",
+        "x-rapidapi-host": "bing-news-search1.p.rapidapi.com"
+    }})
+    const data = await api.json();
+    borrarNoticia();
+    noticia(data, valor)
+    buscarNoticia.value = '';
 }
 const noticia = (data, valor) => {
     tituloN.innerHTML =`<h2>Noticias sobre ${valor}</h2>`;
